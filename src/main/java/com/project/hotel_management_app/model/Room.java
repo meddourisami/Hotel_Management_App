@@ -25,13 +25,16 @@ public class Room {
     private boolean is_Booked = false;
     @Lob
     private Blob photo;
+    //cascade for deleting a room from the booked list if a room is deleted
     @OneToMany(fetch =  FetchType.LAZY , cascade= CascadeType.ALL)
     private List<BookedRoom> bookings;
 
+    //constructor
     public Room() {
         this.bookings = new ArrayList<>();
     }
 
+    //adds a room to the booked list
     public void addBooking(BookedRoom booking) {
         if (bookings == null) {
             bookings = new ArrayList<>();

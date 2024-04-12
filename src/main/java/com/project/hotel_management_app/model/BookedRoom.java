@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-
+//generated getters setters and constructors
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookedRoom {
+    //generated id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookingId;
@@ -33,6 +34,7 @@ public class BookedRoom {
     private int Number_Of_Children;
     @Column(name = "confirmation_Code")
     private String BookingConfirmationCode;
+    //fetching entities only when needed for database queries optimization
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
