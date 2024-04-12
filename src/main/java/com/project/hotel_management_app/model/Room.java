@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Entity
 @Getter
@@ -26,7 +25,7 @@ public class Room {
     @Lob
     private Blob photo;
     //cascade for deleting a room from the booked list if a room is deleted
-    @OneToMany(fetch =  FetchType.LAZY , cascade= CascadeType.ALL)
+    @OneToMany(mappedBy= "room",fetch =  FetchType.LAZY , cascade= CascadeType.ALL)
     private List<BookedRoom> bookings;
 
     //constructor
