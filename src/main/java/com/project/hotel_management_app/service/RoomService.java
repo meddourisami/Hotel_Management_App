@@ -1,5 +1,6 @@
 package com.project.hotel_management_app.service;
 
+import com.project.hotel_management_app.exception.ResourcceNotFoundException;
 import com.project.hotel_management_app.model.Room;
 import com.project.hotel_management_app.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -28,5 +31,37 @@ public class RoomService implements IRoomService{
             room.setPhoto(photoblob);
         }
         return roomRepository.save(room);
+    }
+
+    @Override
+    public List<String> getAllRoomTypes() {
+        return roomRepository.findRoomTypes();
+    }
+
+    @Override
+    public List<Room> getAllRooms() {
+        return roomRepository.findAll();
+    }
+
+    @Override
+    public byte[] getRoomPhotoByRoomId(Long roomId) throws SQLException {
+        Optional<Room> theRoom = roomRepository.findById(roomId);
+        if (theRoom.isEmpty()) {
+            throw new ResourcceNotFoundException("Sorry, Room not found");
+        }
+        Blob photoBlob = theRoom.get().getPhoto();
+        if (photoBlob!= null){
+            return photoBlob.getBytes(1,(int)photoBlob.length());
+        }
+
+        return null;
+    }
+
+    @Override
+    public void deleteRoom(Long roomId) {
+        Optional<Room> theRoom = roomRepository.findById(roomId);
+        if(theRoom.isPresent()){
+            roomRepository.deleteById(roomId);
+        }
     }
 }
