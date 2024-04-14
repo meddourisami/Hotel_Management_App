@@ -1,6 +1,7 @@
 package com.project.hotel_management_app.controller;
 
 import com.project.hotel_management_app.exception.PhotoRetrievalException;
+import com.project.hotel_management_app.exception.ResourcceNotFoundException;
 import com.project.hotel_management_app.model.BookedRoom;
 import com.project.hotel_management_app.model.Room;
 import com.project.hotel_management_app.response.BookingResponse;
@@ -21,6 +22,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -80,6 +82,15 @@ public class RoomController {
         theRoom.setPhoto(photBlob);
         RoomResponse roomResponse = getRoomResponse(theRoom);
         return ResponseEntity.ok(roomResponse);
+    }
+
+    @GetMapping("/room/{roomId}")
+    public ResponseEntity<Optional<RoomResponse>> getRoomById(@PathVariable Long roomId) {
+        Optional<Room> theRoom = roomService.getRoomById(roomId);
+        return theRoom.map(room ->{
+            RoomResponse roomResponse = getRoomResponse(room);
+            return ResponseEntity.ok(Optional.of(roomResponse));
+        }).orElseThrow(() -> new ResourcceNotFoundException("Room not found"));
     }
 
     private RoomResponse getRoomResponse(Room room) {
