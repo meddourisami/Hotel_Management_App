@@ -1,5 +1,6 @@
 package com.project.hotel_management_app.service;
 
+import com.project.hotel_management_app.exception.InternalServerException;
 import com.project.hotel_management_app.exception.ResourcceNotFoundException;
 import com.project.hotel_management_app.model.Room;
 import com.project.hotel_management_app.repository.RoomRepository;
@@ -63,5 +64,21 @@ public class RoomService implements IRoomService{
         if(theRoom.isPresent()){
             roomRepository.deleteById(roomId);
         }
+    }
+
+    @Override
+    public Room updateRoom(Long roomId, String roomType, BigDecimal roomPrice, byte[] photoBytes) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new ResourcceNotFoundException("Room not found"));
+        if(roomType != null ) room.setRoomType(roomType);
+        if(roomPrice != null) room.setRoomPrice(roomPrice);
+        if(photoBytes != null && photoBytes.length > 0){
+            try{
+                room.setPhoto(new SerialBlob(photoBytes));
+            }catch(SQLException e){
+                throw new InternalServerException("Error updating room");
+            }
+        }
+        return roomRepository.save(room);
     }
 }

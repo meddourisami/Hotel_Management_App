@@ -26,7 +26,7 @@ public class RoomResponse {
     }
 
     public RoomResponse(Long id, String roomType, BigDecimal roomPrice, boolean is_Booked,
-                        byte[] photoBytes, List<BookingResponse> bookings) {
+                        byte[] photoBytes) {
         this.id = id;
         this.roomType = roomType;
         this.roomPrice = roomPrice;
@@ -34,7 +34,7 @@ public class RoomResponse {
         //if the database return a string containing an array of bytes
         // then convert it to a photo for the user else return null
         this.photo = photoBytes != null ? Base64.encodeBase64String(photoBytes) : null;
-        this.bookings = bookings;
+        //this.bookings = bookings;
     }
 
 }
