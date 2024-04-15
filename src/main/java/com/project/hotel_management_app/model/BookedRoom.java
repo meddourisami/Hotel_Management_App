@@ -19,13 +19,13 @@ public class BookedRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookingId;
     @Column(name = "Check_In")
-    private LocalDate CheckInDate;
+    private LocalDate checkInDate;
     @Column(name = "Check_Out")
-    private LocalDate CheckOutDate;
+    private LocalDate checkOutDate;
     @Column(name = "guest_FullName")
-    private String GuestName;
+    private String guestName;
     @Column(name = "guest_Email")
-    private String GuestEmail;
+    private String guestEmail;
     @Column(name = "total_guests")
     private int Number_Of_Guests;
     @Column(name = "adults")
@@ -33,7 +33,7 @@ public class BookedRoom {
     @Column(name = "children")
     private int Number_Of_Children;
     @Column(name = "confirmation_Code")
-    private String BookingConfirmationCode;
+    private String bookingConfirmationCode;
     //fetching entities only when needed for database queries optimization
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
@@ -54,6 +54,6 @@ public class BookedRoom {
     }
 
     public void setBookingConfirmationCode(String bookingConfirmationCode) {
-        this.BookingConfirmationCode = bookingConfirmationCode;
+        this.bookingConfirmationCode = bookingConfirmationCode;
     }
 }

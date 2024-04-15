@@ -31,6 +31,7 @@ import java.util.Optional;
 public class RoomController {
     private final IRoomService roomService;
     private final BookingService bookingService;
+
     @PostMapping("/add/new_room")
     public ResponseEntity<RoomResponse> addRoom(
             @RequestParam("photo") MultipartFile photo,
