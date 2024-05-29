@@ -1,7 +1,6 @@
 package com.project.hotel_management_app.controller;
 
 import com.project.hotel_management_app.exception.RoleAlreadyExistException;
-import com.project.hotel_management_app.exception.UsernameNotFoundException;
 import com.project.hotel_management_app.model.Role;
 import com.project.hotel_management_app.model.User;
 import com.project.hotel_management_app.service.IRoleService;

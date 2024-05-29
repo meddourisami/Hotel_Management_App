@@ -1,13 +1,13 @@
 package com.project.hotel_management_app.service;
 
 import com.project.hotel_management_app.exception.UserAlreadyExistsException;
-import com.project.hotel_management_app.exception.UsernameNotFoundException;
 import com.project.hotel_management_app.model.Role;
 import com.project.hotel_management_app.model.User;
 import com.project.hotel_management_app.repository.RoleRepository;
 import com.project.hotel_management_app.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +49,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User getUser(String email) throws UsernameNotFoundException {
+    public User getUser(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }

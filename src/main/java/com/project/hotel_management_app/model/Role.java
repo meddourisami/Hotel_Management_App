@@ -36,7 +36,6 @@ public class Role {
     public void removeUserFromRole(User user){
         user.getRoles().remove(this);
         this.getUsers().remove(user);
-
     }
 
     public void removeAllUsersFromRole(){
@@ -45,6 +44,7 @@ public class Role {
             roleUsers.forEach(this :: removeUserFromRole);
         }
     }
+
     public  String getName(){
         return name != null? name : "";
     }

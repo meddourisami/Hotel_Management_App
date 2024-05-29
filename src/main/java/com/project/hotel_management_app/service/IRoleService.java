@@ -1,6 +1,5 @@
 package com.project.hotel_management_app.service;
 
-import com.project.hotel_management_app.exception.UsernameNotFoundException;
 import com.project.hotel_management_app.model.Role;
 import com.project.hotel_management_app.model.User;
 
