@@ -7,6 +7,7 @@ import com.project.hotel_management_app.model.User;
 import com.project.hotel_management_app.repository.RoleRepository;
 import com.project.hotel_management_app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    public User removeUserFromRole(Long userId, Long roleId) throws UsernameNotFoundException {
+    public User removeUserFromRole(Long userId, Long roleId){
         Optional<User> user = userRepository.findById(userId);
         Optional<Role> role = roleRepository.findById(roleId);
         if (role.isPresent() && role.get().getUsers().contains(user.get())){

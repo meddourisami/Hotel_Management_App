@@ -12,7 +12,7 @@ public interface IRoleService {
     void deleteRole(Long id);
     Role findByName(String name);
 
-    User removeUserFromRole(Long userId, Long roleId) throws UsernameNotFoundException;
+    User removeUserFromRole(Long userId, Long roleId);
     User assignRoleToUser(Long userId, Long roleId);
     Role removeAllUsersFromRole(Long roleId);
 }

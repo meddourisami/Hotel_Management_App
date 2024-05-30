@@ -14,7 +14,7 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.FOUND;
 
 @RestController
-@RequestMapping("/roles")
+@RequestMapping("/api/roles")
 @RequiredArgsConstructor
 public class RoleController {
     private final IRoleService roleService;
@@ -34,10 +34,12 @@ public class RoleController {
 
         }
     }
+
     @DeleteMapping("/delete/{roleId}")
     public void deleteRole(@PathVariable("roleId") Long roleId){
         roleService.deleteRole(roleId);
     }
+
     @PostMapping("/remove-all-users-from-role/{roleId}")
     public Role removeAllUsersFromRole(@PathVariable("roleId") Long roleId){
         return roleService.removeAllUsersFromRole(roleId);
@@ -46,9 +48,10 @@ public class RoleController {
     @PostMapping("/remove-user-from-role")
     public User removeUserFromRole(
             @RequestParam("userId") Long userId,
-            @RequestParam("roleId") Long roleId) throws UsernameNotFoundException {
+            @RequestParam("roleId") Long roleId){
         return roleService.removeUserFromRole(userId, roleId);
     }
+
     @PostMapping("/assign-user-to-role")
     public User assignUserToRole(
             @RequestParam("userId") Long userId,

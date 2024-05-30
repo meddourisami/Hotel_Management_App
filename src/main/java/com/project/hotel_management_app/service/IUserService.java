@@ -8,5 +8,5 @@ public interface IUserService {
     User registerUser(User user);
     List<User> getUsers();
     void deleteUser(String email);
-    User getUser(String email) throws UsernameNotFoundException;
+    User getUser(String email);
 }
