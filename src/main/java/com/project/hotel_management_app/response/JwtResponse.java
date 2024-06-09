@@ -1,6 +1,7 @@
 package com.project.hotel_management_app.response;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

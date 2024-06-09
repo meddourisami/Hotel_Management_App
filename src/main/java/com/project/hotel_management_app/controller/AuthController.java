@@ -2,13 +2,27 @@ package com.project.hotel_management_app.controller;
 
 import com.project.hotel_management_app.exception.UserAlreadyExistsException;
 import com.project.hotel_management_app.model.User;
+import com.project.hotel_management_app.request.LoginRequest;
+import com.project.hotel_management_app.response.JwtResponse;
+import com.project.hotel_management_app.security.jwt.JwtUtils;
+import com.project.hotel_management_app.security.user.HotelUserDetails;
 import com.project.hotel_management_app.service.IUserService;
+import com.project.hotel_management_app.service.RoleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -17,6 +31,9 @@ import static org.springframework.http.HttpStatus.*;
 @RequiredArgsConstructor
 public class AuthController {
     private final IUserService userService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtils jwtUtils;
+    private final RoleService roleService;
 
     @PostMapping("/register-user")
     public ResponseEntity<?> registerUser(User user) {
@@ -27,5 +44,23 @@ public class AuthController {
         }catch(UserAlreadyExistsException e){
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest request){
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtTokenForUser(authentication);
+        HotelUserDetails userDetails = (HotelUserDetails) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority).toList();
+        return ResponseEntity.ok(new JwtResponse(
+                userDetails.getId(),
+                userDetails.getEmail(),
+                jwt,
+                roles
+        ));
     }
 }
