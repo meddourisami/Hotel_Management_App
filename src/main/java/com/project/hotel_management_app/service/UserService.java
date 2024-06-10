@@ -26,7 +26,11 @@ public class UserService implements IUserService {
         if (userRepository.existsByEmail(user.getEmail())){
             throw new UserAlreadyExistsException(user.getEmail() + " already exists");
         }
+        if (user.getPassword() == null) {
+            throw new IllegalArgumentException("Password cannot be null");
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEmail(user.getEmail());
         System.out.println(user.getPassword());
         Role userRole = roleRepository.findByName("ROLE_USER").get();
         user.setRoles(Collections.singletonList(userRole));
